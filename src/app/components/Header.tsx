@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { FiSearch } from "react-icons/fi";
+import { Avatar } from '@mui/material';
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,7 +24,7 @@ const Header = () => {
           </button>
         </div>
         <div className="bg-black w-10 h-10 rounded-full flex justify-center items-center">
-          <span className="text-white text-sm font-Poppins font-semibold mx-auto">AK</span>
+        <Avatar alt="Remy Sharp" src="/profile-img.jpg" />
         </div>
       </div>
     </div>

@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@reach/tooltip": "^0.18.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.6",
+    "@mui/material": "^5.16.6",
+    "@mui/x-date-pickers": "^7.11.1",
     "@tippyjs/react": "^4.2.6",
     "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.12",
     "firebase": "^10.12.4",
     "framer-motion": "^11.3.19",
     "lucide-react": "^0.417.0",

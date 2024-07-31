@@ -7,6 +7,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from 'dayjs';
 
+//Firbase Storage
+import {db} from "../../config/firebase"
+import {collection, addDoc}  from "firebase/firestore"
+
 interface PantryItem {
   id: number;
   name: string;
@@ -114,29 +118,37 @@ const buttonStyle={
 
 
   ///Adding Items To The Pantry
-  const addItems=()=>
-  {
-    if(!itemName || !quantity || !category || !expiryDate)
-    {
-      alert("Please fill all fields to add item")
+  const addItems = async () => {
+    if (!itemName || !quantity || !category || !expiryDate) {
+      alert("Please fill all the fields");
+      return;
     }
-
-    const newItem:PantryItem ={
-      id: pantryItems.length ? pantryItems[pantryItems.length-1].id +1:1,
+  
+    const newItem = {
+      id: pantryItems.length ? pantryItems[pantryItems.length - 1].id + 1 : 1,
       name: itemName,
       qty: quantity,
       category: category,
       dateAdded: dayjs().format('YYYY-MM-DD'),
       expiryDate: expiryDate.format('YYYY-MM-DD'),
+    };
+  
+    try {
+      const docRef = await addDoc(collection(db, "stock"), newItem);
+      console.log("Document written with ID: ", docRef.id);
+  
+      // Update local state
+      setPantryItems([...pantryItems, newItem]);
+      setItemName('');
+      setQuantity(0);
+      setCategory('');
+      setExpiryDate(null);
+      setOpen(false);
+    } catch (error) {
+      console.error("Error adding document:", error);
+      alert("There was an error adding the item. Please try again.");
     }
-    setPantryItems([...pantryItems, newItem])
-    setPantryItems([...pantryItems, newItem]);
-    setItemName('');
-    setQuantity(0);
-    setCategory('');
-    setExpiryDate(null);
-    setOpen(false);
-  }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -238,7 +250,7 @@ const buttonStyle={
             sx={inputStyle}
             onChange={(e)=>
             {
-              setQuantity(e.target.value )
+              setQuantity(e.target.value)
             }
             }
           />

@@ -5,6 +5,7 @@ import { Modal,Box, Typography,TextField, InputLabel, Select, MenuItem, Button} 
 import {DatePicker} from '@mui/x-date-pickers'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs, { Dayjs } from 'dayjs';
 
 interface PantryItem {
   id: number;
@@ -60,7 +61,13 @@ const buttonStyle={
   },
 }
 
-  const[category, setCategory]=useState("")
+//Defining states for items
+  const[category, setCategory]=useState<string>("")
+  const [itemName, setItemName]= useState<string>("")
+  const [quantity, setQuantity] = useState<number>(0);
+  const [expiryDate, setExpiryDate] = useState<Dayjs | null>(null);
+
+  
   const [pantryItems, setPantryItems] = useState<PantryItem[]>([
     { id: 1, name: 'Example Item 1', qty: 5, category: 'Grains', dateAdded: '2024-07-28', expiryDate: '2024-08-10' },
     // Add more items here
@@ -94,16 +101,42 @@ const buttonStyle={
     );
   };
 
-  const handleEdit = (itemId: number) => {
-    console.log('Edit item with id:', itemId);
-    // Implement edit functionality here
-  };
+  // const handleEdit = (itemId: number) => {
+  //   console.log('Edit item with id:', itemId);
+  //   // Implement edit functionality here
+  // };
 
   const handleDelete = (itemId: number) => {
     setPantryItems(prevItems => prevItems.filter(item => item.id !== itemId));
     setSelectedItems(prevSelected => prevSelected.filter(id => id !== itemId));
     console.log('Delete item with id:', itemId);
   };
+
+
+  ///Adding Items To The Pantry
+  const addItems=()=>
+  {
+    if(!itemName || !quantity || !category || !expiryDate)
+    {
+      alert("Please fill all fields to add item")
+    }
+
+    const newItem:PantryItem ={
+      id: pantryItems.length ? pantryItems[pantryItems.length-1].id +1:1,
+      name: itemName,
+      qty: quantity,
+      category: category,
+      dateAdded: dayjs().format('YYYY-MM-DD'),
+      expiryDate: expiryDate.format('YYYY-MM-DD'),
+    }
+    setPantryItems([...pantryItems, newItem])
+    setPantryItems([...pantryItems, newItem]);
+    setItemName('');
+    setQuantity(0);
+    setCategory('');
+    setExpiryDate(null);
+    setOpen(false);
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -162,14 +195,14 @@ const buttonStyle={
                 <td className="py-3 px-6 text-left">{item.dateAdded}</td>
                 <td className="py-3 px-6 text-left">{item.expiryDate}</td>
                 <td className=" flex justify-center items-center gap-3 py-3 px-6 text-left">
-                        <button
+                        {/* <button
                           className=" bg-blue-200 text-blue-700 opacity-50 hover:opacity-100 w-full text-left px-4 py-2 hover:bg-gray-100"
                           onClick={() => handleEdit(item.id)}
                         >
                           <FaEdit className="inline mr-2" /> Edit
-                        </button>
+                        </button> */}
                         <button
-                          className="  bg-red-200 text-red-700 opacity-50 hover:opacity-100 w-full text-left px-4 py-2 hover:bg-gray-100"
+                          className="  bg-red-200 text-red-700 opacity-50 hover:opacity-100 w-full flex justify-center items-center  px-4 py-2 hover:bg-gray-100"
                           onClick={() => handleDelete(item.id)}
                         >
                           <FaTrash className="inline mr-2" /> Delete
@@ -186,15 +219,28 @@ const buttonStyle={
           </Typography>
           <TextField
             id="item-name"
+            value={itemName}
             label="Item Name"
             variant="outlined"
             sx={inputStyle}
+            onChange={(e)=>
+            {
+              setItemName(e.target.value)
+            }
+            }
           />
           <TextField
             id="item-quantity"
             label="Quantity"
+            value={quantity}
+            type="number"
             variant="outlined"
             sx={inputStyle}
+            onChange={(e)=>
+            {
+              setQuantity(e.target.value )
+            }
+            }
           />
           <Box>
             <InputLabel id="category-label">Category</InputLabel>
@@ -216,8 +262,8 @@ const buttonStyle={
               <MenuItem value="Fruits & Vegetables">Fruits & Vegetables</MenuItem>
             </Select>
           </Box>
-          <DatePicker label="Expiry Date" sx={datePickerStyle} />
-          <Button variant='contained' sx={buttonStyle}>Add Item</Button>
+          <DatePicker label="Expiry Date" value={expiryDate} sx={datePickerStyle} onChange={(newDate)=>setExpiryDate(newDate)}/>
+          <Button variant='contained' sx={buttonStyle} onClick={addItems}>Add Item</Button>
         </Box>
       </Modal>
       </div>

@@ -13,6 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { auth } from "../../../config/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 function Copyright(props: any) {
   return (
@@ -27,17 +30,43 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email')?.toString();
+    const password = data.get('password')?.toString();
+    const firstName = data.get('firstName')?.toString();
+    const lastName = data.get('lastName')?.toString();
+    const displayName = `${firstName} ${lastName}`;
+
+    if (!email || !password) {
+      console.error("Email and password are required.");
+      return;
+    }
+
+    try {
+      // Firebase signup API call
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Update user profile with display name
+      await updateProfile(user, { displayName });
+
+      console.log('User signed up:', user);
+
+      // Redirect to the dashboard if sign-up is successful
+      if (user) {
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error signing up:", error);
+      alert("Sign-up failed. Please try again.");
+    }
   };
 
   return (
@@ -105,7 +134,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="I agree to the Terms, Conditions and Privacy Policy"
                 />
               </Grid>
             </Grid>
@@ -113,9 +142,18 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 0, mb: 1, textTransform: 'none', fontSize: '1rem', fontWeight:'bold'}}
             >
               Sign Up
+            </Button>
+          
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 0, mb: 1, textTransform: 'none', fontSize: '1rem', fontWeight:'bold'}}
+            >
+              Sign Up With Google
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

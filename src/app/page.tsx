@@ -48,7 +48,7 @@ export default function Home() {
             duration: 0.5
            }}
           className="border-[1.5px] border-black text-black text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
-            <Link href="/auth">
+            <Link href="/auth/login">
             Login To Account 
             </Link>
           </motion.button>

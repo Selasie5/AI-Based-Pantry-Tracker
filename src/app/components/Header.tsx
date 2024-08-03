@@ -5,6 +5,7 @@ import { Button } from '@mui/material';
 import { auth } from '@/config/firebase';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import Link from "next/link"
 
 const buttonStyle = {
   backgroundColor: '#000000',
@@ -55,10 +56,10 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
             <FiSearch size={20} />
           </button>
         </div>
-        <div className="bg-black w-10 h-10 rounded-full flex justify-center items-center">
-          <Button variant="contained" sx={buttonStyle} onClick={logOut}>
-            Log Out
-          </Button>
+        <div className="">
+         <button className='text-white font-Poppins bg-black px-5 py-2 opacity-30 hover:opacity-100'>
+          <Link href="">Log Out</Link>
+         </button>
         </div>
       </div>
     </div>

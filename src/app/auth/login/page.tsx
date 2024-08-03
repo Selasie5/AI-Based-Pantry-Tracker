@@ -40,30 +40,27 @@ export default function SignIn() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    const email = data.get('email')?.toString();
-    const password = data.get('password')
-   //Firebase signup API call
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential)=>
-   {
-     const user = userCredential.user;
-     if(user)
-     {
-       router.push("/dashboard")
-     }
-     else{
-       alert(Error)
-     }
-   }).catch((error)=>
-   {
-     console.log(error)
-   })
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
+    const email = data.get('email')?.toString() ?? "";
+    const password = data.get('password')?.toString() ?? "";
+    
+    if (email && password) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          if (user) {
+            router.push("/dashboard");
+          } else {
+            alert("Error signing in");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Failed to sign in");
+        });
+    } else {
+      alert("Please enter both email and password");
+    }
+    
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -133,4 +130,5 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
+}
 }

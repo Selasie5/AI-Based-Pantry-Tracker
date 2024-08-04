@@ -1,6 +1,7 @@
 "use client"
 import React from "react"
 import Image from "next/image";
+import { SiShutterstock } from "react-icons/si";
 import Link from "next/link";
 import {motion} from "framer-motion"
 
@@ -19,7 +20,10 @@ export default function Home() {
           duration: 0.1
          }}
          >
-          <h4 className="font-Poppins font-bold text-green-500 text-xl tracking-wide">PantryPal</h4>
+          <div className='flex justify-center items-center gap-2'>
+          <SiShutterstock  size={34} className='text-blue-700'/>
+          <h4 className="font-Poppins font-bold text-gray-900 text-xl tracking-wide">PantryPal</h4>
+      </div>
          </motion.div>
          <div className="flex justify-center items-center gap-5">
           <motion.button
@@ -32,7 +36,7 @@ export default function Home() {
            transition={{
             duration: 0.3
            }}
-           className="bg-green-500 text-white  text-xs md:text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
+           className="bg-blue-700 text-white  text-xs md:text-sm font-Poppins rounded-[0.5rem] px-6 py-[0.8rem] hover:font-bold transition-all">
             <Link href="/auth/signup">
             Get Started 
             </Link>
@@ -47,7 +51,7 @@ export default function Home() {
            transition={{
             duration: 0.5
            }}
-          className="border-[1.5px] border-black text-black text-xs md:text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
+          className="bg-gray-200 text-black text-xs md:text-sm font-Poppins rounded-[0.5rem] px-6 py-[0.8rem] hover:bg-blue-200 hover:font-bold transition-all">
             <Link href="/auth/login">
             Login
             </Link>

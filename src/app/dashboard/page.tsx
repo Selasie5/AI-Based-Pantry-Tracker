@@ -27,13 +27,13 @@ const Page = () => {
     setSearchQuery(query)
   }
   return (
-    <section className="pt-20"> {/* Add padding-top to prevent overlap */}
+    <section className="pt-28 md:pt-16"> {/* Add padding-top to prevent overlap */}
       <Header onSearch={handleSearch}/>
-      <section className='px-2 md:px-10 py-10 space-y-5'>
+      <section className=' md:px-10 py-10 space-y-5'>
         {/* Custom Greeting */}
-        <div className='space-y-1'>
-          <h1 className="text-[1.65rem] font-medium font-Poppins text-black">
-            {customGreeting}, {userName}
+        <div className='space-y-1 px-4 md:px-0'>
+          <h1 className=" text-[1.4rem] md:text-[1.65rem] font-medium font-Poppins text-black">
+            {customGreeting}, <span className='font-bold'>{userName}</span>
           </h1>
           <p className='font-Poppins text-sm font-normal text-gray-500'>
             Here&apos;s what your pantry is looking like today

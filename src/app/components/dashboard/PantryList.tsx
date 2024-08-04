@@ -18,7 +18,9 @@ interface PantryItem {
   category: string;
   dateAdded: string;
   expiryDate: string;
+  expiryStatus: string
 }
+
 
 interface PantryListProps {
   searchQuery: string; // Add searchQuery prop
@@ -72,6 +74,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
   const [itemName, setItemName] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(0);
   const [expiryDate, setExpiryDate] = useState<Dayjs | null>(null);
+  const [expiryStatus, setExpiryStatus]= useState<string>("")
   const [pantryItems, setPantryItems] = useState<PantryItem[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
@@ -132,8 +135,16 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
           category: category,
           dateAdded: new Date().toISOString().split('T')[0],
           expiryDate: expiryDate.format('YYYY-MM-DD'),
+          expiryStatus: expiryStatus
         };
-
+        let currentDate = new Date().toISOString().split('T')[0];
+        if(currentDate === expiryDate.format('YYYY-MM-DD'))
+        {
+          setExpiryStatus("Expired")
+        }
+        else{
+          setExpiryStatus("Fresh")
+        }
         const pantryItemsRef = collection(db, `userData/${user.uid}/pantryitems`);
         const docRef = await addDoc(pantryItemsRef, newItem);
 
@@ -144,6 +155,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
         setQuantity(0);
         setCategory('');
         setExpiryDate(null);
+        setExpiryStatus("")
         setOpen(false);
       }
     } catch (error) {
@@ -236,7 +248,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
           <div className='flex justify-between'>
           <div className="flex justify-center items-center gap-4 ">
             {/* Category Filter */}
-            <InputLabel id="filter-category-label">Category</InputLabel>
+            <InputLabel id="filter-category-label" className='hidden md:block'>Category</InputLabel>
             <Select
               labelId="filter-category-label"
               id="filter-category-select"
@@ -258,7 +270,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
           </div>
           <div className="flex justify-end items-center gap-5 mb-4">
             <button
-              className="text-[0.75rem] bg-red-200 text-red-500 rounded-lg px-5 py-3 opacity-50 hover:opacity-100 hover:cursor-pointer"
+              className="text-[0.75rem] bg-gray-200 hover:bg-red-300 hover:text-red-500 rounded-[0.5rem] px-5 py-3 opacity-50 hover:opacity-100 hover:cursor-pointer"
               onClick={() => {
                 if (window.confirm('Are you sure you want to delete selected items?')) {
                   setPantryItems(prevItems => prevItems.filter(item => !selectedItems.includes(item.id)));
@@ -270,7 +282,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
               Delete Selected Items
             </button>
             <button
-              className="font-Poppins text-[0.75rem] bg-green-500 text-white rounded-lg px-6 py-3 hover:cursor-pointer"
+              className="font-Poppins text-[0.75rem] bg-blue-700 text-white rounded-[0.5rem] px-6 py-3 hover:cursor-pointer"
               onClick={handleOpen}
             >
               Add Item To Pantry
@@ -289,12 +301,13 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
                     aria-label="Select all items"
                   />
                 </th>
-                <th className="py-3 px-6 text-left cursor-pointer">Name</th>
-                <th className="py-3 px-6 text-left cursor-pointer">Qty</th>
-                <th className="py-3 px-6 text-left cursor-pointer">Category</th>
-                <th className="py-3 px-6 text-left cursor-pointer">Date Added</th>
-                <th className="py-3 px-6 text-left cursor-pointer">Expiry Date</th>
-                <th className="py-3 px-6 text-left">Actions</th>
+                <th className="py-3 px-6 text-left cursor-pointer font-Poppins font-medium capitalize">Name</th>
+                <th className="py-3 px-6 text-left cursor-pointer font-Poppins font-medium  capitalize">Qty</th>
+                <th className="py-3 px-6 text-left cursor-pointer font-Poppins font-medium  capitalize">Category</th>
+                <th className="py-3  px-8 md:px-6 w-36text-left cursor-pointer font-Poppins font-medium  font-Poppins  capitalize">Date Added</th>
+                <th className="py-3 px-8 md:px-6 text-left cursor-pointer font-Poppins font-medium  capitalize">Expiry Date</th>
+                {/* <th className="py-3 px-6 text-left cursor-pointer font-Poppins  font-medium capitalize">Expiry Status</th> */}
+                <th className="py-3 px-6 text-left font-Poppins font-medium  capitalize">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
@@ -311,17 +324,22 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
                   <td className="py-3 px-6 text-left whitespace-nowrap">{item.name}</td>
                   <td className="py-3 px-6 text-left">{item.qty}</td>
                   <td className="py-3 px-6 text-left">{item.category}</td>
-                  <td className="py-3 px-6 text-left">{item.dateAdded}</td>
-                  <td className="py-3 px-6 text-left">{item.expiryDate}</td>
+                  <td className="py-3 md:px-6 text-left">{item.dateAdded}</td>
+                  <td className="py-3 md:px-6 text-left">{item.expiryDate}</td>
+                  {/* <td className="py-3 px-6 text-left">
+                    <span>
+                    {item.expiryStatus}
+                    </span>
+                    </td> */}
                   <td className="flex justify-center items-center gap-3 py-3 px-6 text-left">
                     <button
-                      className="bg-blue-200 text-blue-700 rounded-lg opacity-50 hover:opacity-100 w-full flex justify-center items-center px-1 py-2 hover:bg-gray-100"
+                      className="bg-blue-200 text-blue-700 rounded-[0.4rem] opacity-50 hover:opacity-100 text-xs md:text-sm w-full flex justify-center items-center px-2 py-2 hover:bg-gray-100"
                       onClick={() => handleEditOpen(item)}
                     >
                       <FaEdit className="inline mr-2" /> <span className='text-blue-700 sm:hidden md:block'>Edit</span>
                     </button>
                     <button
-                      className="bg-red-200 text-red-700 opacity-50 hover:opacity-100 w-full text-sm lex justify-center items-center px-1 py-2 hover:bg-gray-100"
+                      className="bg-red-200 text-red-700 opacity-50 rounded-[0.4rem] hover:opacity-100 w-full text-xs md:text-sm flex justify-center items-center px-2 py-2 hover:bg-gray-100"
                       onClick={() => handleDelete(item.id)}
                     >
                       <FaTrash className="inline mr-2" /> <span className='text-red-700 sm:hidden md:block'>Delete</span>
@@ -365,7 +383,8 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
       </Button>
     </Box>
     {useCamera ? (
-      <Webcam
+      <>
+ <Webcam
         audio={false}
         screenshotFormat="image/jpeg"
         width="100%"
@@ -375,6 +394,15 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
         onUserMedia={() => console.log("Camera enabled")}
         screenshotQuality={1}
       />
+        <DatePicker
+          label="Expiry Date"
+          value={expiryDate}
+          sx={datePickerStyle}
+          onChange={newDate => setExpiryDate(newDate)}
+        />
+      </>
+     
+      
     ) : (
       <>
         <TextField

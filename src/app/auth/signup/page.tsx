@@ -53,8 +53,18 @@ export default function SignUp() {
   
 
     if (!email || !password) {
-      console.error("Email and password are required.");
+      toast.error("Email and password are required.");
       return;
+    }
+    else if (!email) {
+      toast.error("Please enter your email");
+    }
+    else if(!password)
+    {
+      toast.error("Please enter your password");
+    }
+    else{
+      toast.error("Please enter your email and password")
     }
 
     try {
@@ -91,6 +101,7 @@ export default function SignUp() {
         const user = result.user;
         console.log("User signed in: ", user);
         console.log("Access token: ", token);
+        toast.success("You have successfully logged in");
         router.push("/dashboard")
       })
       .catch((error) => {
@@ -100,6 +111,7 @@ export default function SignUp() {
         const email = error.customData ? error.customData.email : null;
         const credential = GoogleAuthProvider.credentialFromError(error);
         console.error("Error signing in: ", errorCode, errorMessage);
+        toast.error("There wasn error signing in with Google.");
         if (email) console.error("Email: ", email);
         if (credential) console.error("Credential: ", credential);
       });

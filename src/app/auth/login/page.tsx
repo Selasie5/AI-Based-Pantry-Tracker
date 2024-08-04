@@ -63,10 +63,17 @@ export default function SignIn() {
         })
         .catch((error) => {
           console.error(error);
-          toast("Sign-up failed. Please try again.");
+          toast.error("Sign in failed. Please try again.");
         });
-    } else {
-      toast("Please enter both email and password");
+    } else if (!email) {
+      toast.error("Please enter your email");
+    }
+    else if(!password)
+    {
+      toast.error("Please enter your password");
+    }
+    else{
+      toast.error("Please enter your email and password")
     }
   };
 
@@ -83,6 +90,7 @@ export default function SignIn() {
         const user = result.user;
         console.log("User signed in: ", user);
         console.log("Access token: ", token);
+        toast.success("You have successfully logged in");
         router.push("/dashboard")
       })
       .catch((error) => {
@@ -92,6 +100,7 @@ export default function SignIn() {
         const email = error.customData ? error.customData.email : null;
         const credential = GoogleAuthProvider.credentialFromError(error);
         console.error("Error signing in: ", errorCode, errorMessage);
+        toast.error("There was an error signing in with Google")
         if (email) console.error("Email: ", email);
         if (credential) console.error("Credential: ", credential);
       });
@@ -99,6 +108,7 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <ToastContainer/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

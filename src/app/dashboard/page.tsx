@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import Header from '../components/Header';
-import PantryList from '../components/dasboard/PantryList';
+import PantryList from '../components/dashboard/PantryList';
 import { useAuth } from '../../../context/auth/AuthProvider';
 
 const Page = () => {

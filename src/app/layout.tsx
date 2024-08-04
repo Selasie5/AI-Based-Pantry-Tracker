@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google";
 import "./globals.css";
 import {AuthProvider} from "./components/auth/AuthProvider";
@@ -16,7 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <AuthProvider>
-<html lang="en">
+      <Analytics/>
+      <html lang="en">
       <body className={inter.className}>{children}</body>
     </html>
     </AuthProvider>

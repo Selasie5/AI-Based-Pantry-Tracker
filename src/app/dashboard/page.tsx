@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import PantryList from '../components/dasboard/PantryList';
-import { useAuth } from '../components/auth/AuthProvider';
+import { useAuth } from '../../../context/auth/AuthProvider';
 
 const Page = () => {
   const time = new Date();

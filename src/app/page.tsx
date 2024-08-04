@@ -7,7 +7,7 @@ import {motion} from "framer-motion"
 export default function Home() {
   return (
     <main className="py-2">
-      <header className="flex justify-between items-center py-3 px-2 md:px-10">
+      <header className="flex justify-center md:justify-between items-center gap-14 py-3 px-2 md:px-10">
          <motion.div
          initial={{
           opacity: 0
@@ -21,7 +21,7 @@ export default function Home() {
          >
           <h4 className="font-Poppins font-bold text-green-500 text-xl tracking-wide">PantryPal</h4>
          </motion.div>
-         <div className="space-x-5">
+         <div className="flex justify-center items-center gap-5">
           <motion.button
           initial={{
             opacity: 0
@@ -32,7 +32,7 @@ export default function Home() {
            transition={{
             duration: 0.3
            }}
-           className="bg-green-500 text-white text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
+           className="bg-green-500 text-white  text-xs md:text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
             <Link href="/auth/signup">
             Get Started 
             </Link>
@@ -47,9 +47,9 @@ export default function Home() {
            transition={{
             duration: 0.5
            }}
-          className="border-[1.5px] border-black text-black text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
+          className="border-[1.5px] border-black text-black text-xs md:text-sm font-Manrope rounded-md px-6 py-[0.8rem]">
             <Link href="/auth/login">
-            Login To Account 
+            Login
             </Link>
           </motion.button>
          </div>

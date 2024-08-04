@@ -27,7 +27,7 @@ const Page = () => {
     setSearchQuery(query)
   }
   return (
-    <section className="pt-28 md:pt-16"> {/* Add padding-top to prevent overlap */}
+    <section className=" pt-28 md:pt-16"> {/* Add padding-top to prevent overlap */}
       <Header onSearch={handleSearch}/>
       <section className=' md:px-10 py-10 space-y-5'>
         {/* Custom Greeting */}
@@ -41,6 +41,9 @@ const Page = () => {
         </div>
         <PantryList searchQuery={searchQuery} />
       </section>
+      <div className='flex justify-center items-center'>
+      <span className='text-gray-400 font-Poppins text-sm'>*Camera and recipe generation AI coming soon in v2.0.0*</span>
+      </div>
     </section>
   );
 };

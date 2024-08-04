@@ -10,6 +10,7 @@ import { db } from '../../../config/firebase';
 import { collection, addDoc, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import dayjs, { Dayjs } from 'dayjs'; 
 import Webcam from 'react-webcam';
+import RecipeCreatorBot from './RecipeCreatorBot';
 
 interface PantryItem {
   id: string; // ID must be a string as Firestore IDs are strings
@@ -243,7 +244,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <section className="p-4">
+      <section className=" relative p-4">
         <div className=" overflow-x-scroll md:overflow-x-auto">
           <div className='flex justify-between'>
           <div className="flex justify-center items-center gap-4 ">
@@ -379,7 +380,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
           backgroundColor: useCamera ? '#007bff' : '#6c757d',
         }}
       >
-        Use Camera
+        Use Camera(Coming Soon in v2.0.0)
       </Button>
     </Box>
     {useCamera ? (
@@ -455,6 +456,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
     </Button>
   </Box>
 </Modal>
+<RecipeCreatorBot pantryItems={pantryItems}/>
         </div>
       </section>
     </LocalizationProvider>

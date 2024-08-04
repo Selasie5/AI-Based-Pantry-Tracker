@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {auth} from "../../../config/firebase"
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup   } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
 function Copyright(props: any) {
@@ -38,8 +38,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
   const router = useRouter();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -64,7 +64,35 @@ export default function SignIn() {
     } else {
       alert("Please enter both email and password");
     }
-    
+  };
+
+
+  const provider= new GoogleAuthProvider();
+  //Google signup
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log("User signed in: ", user);
+        console.log("Access token: ", token);
+        router.push("/dashboard")
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData ? error.customData.email : null;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error("Error signing in: ", errorCode, errorMessage);
+        if (email) console.error("Email: ", email);
+        if (credential) console.error("Credential: ", credential);
+      });
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -116,23 +144,26 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
+          <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 0, mb: 1, textTransform: 'none', fontSize: '1rem', fontWeight:'bold'}}
+              onClick={signInWithGoogle}
+            >
+              Sign Up With Google
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/auth/login" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+              </Grid>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
-}
 }

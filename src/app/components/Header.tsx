@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
         </div>
       </div>
      
-      <div className="flex justify-between items-center gap-8 pt-5 md:pt-0 w-full md:w-[45%]">
+      <div className="flex justify-between items-center gap-8 pt-5 md:pt-0 w-full md:w-[50%]">
         <div className="relative">
           <input
             placeholder="Search for items in your pantry"

@@ -126,68 +126,74 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
       alert('Please fill all the fields');
       return;
     }
-
+  
     try {
       if (user) {
-        const newItem = {
-          id: '', // Initialize as an empty string; Firestore will generate a string ID
-          name: itemName,
-          qty: quantity,
-          category: category,
-          dateAdded: new Date().toISOString().split('T')[0],
-          expiryDate: expiryDate.format('YYYY-MM-DD'),
-          expiryStatus: expiryStatus
-        };
         let currentDate = new Date().toISOString().split('T')[0];
-        if(currentDate === expiryDate.format('YYYY-MM-DD'))
-        {
-          setExpiryStatus("Expired")
+        let status = currentDate === expiryDate.format('YYYY-MM-DD') ? "Expired" : "Fresh";
+  
+        if (isEditing && selectedItem) {
+          // Update existing item
+          const updatedData = {
+            name: itemName,
+            qty: quantity,
+            category: category,
+            expiryDate: expiryDate.format('YYYY-MM-DD'),
+            expiryStatus: status
+          };
+  
+          await handleEdit(selectedItem.id, updatedData);
+          setIsEditing(false);
+          setSelectedItem(null);
+        } else {
+          // Add new item
+          const newItem = {
+            name: itemName,
+            qty: quantity,
+            category: category,
+            dateAdded: currentDate,
+            expiryDate: expiryDate.format('YYYY-MM-DD'),
+            expiryStatus: status
+          };
+  
+          const pantryItemsRef = collection(db, `userData/${user.uid}/pantryitems`);
+          const docRef = await addDoc(pantryItemsRef, newItem);
+  
+          // Assign the generated ID from Firestore
+          const newItemWithId = { ...newItem, id: docRef.id };
+          setPantryItems([...pantryItems, newItemWithId]);
         }
-        else{
-          setExpiryStatus("Fresh")
-        }
-        const pantryItemsRef = collection(db, `userData/${user.uid}/pantryitems`);
-        const docRef = await addDoc(pantryItemsRef, newItem);
-
-        newItem.id = docRef.id; // Assign the generated ID from Firestore
-
-        setPantryItems([...pantryItems, newItem]);
+  
+        // Reset form and close modal
         setItemName('');
         setQuantity(0);
         setCategory('');
         setExpiryDate(null);
-        setExpiryStatus("")
         setOpen(false);
       }
     } catch (error) {
-      console.error('Error adding document:', error);
-      alert('There was an error adding the item. Please try again.');
+      console.error('Error adding/updating document:', error);
+      alert('There was an error. Please try again.');
     }
   };
-
+  
   const handleDelete = async (itemId: string) => {
     try {
-      // Find the item in the local state to verify it's in the pantryItems list
-      const itemToDelete = pantryItems.find(item => item.id === itemId);
-      
-      if (itemToDelete && user) {
-        // Correct document path
-        const docRef = doc(db, `users/${user.uid}/pantryItems`, itemId);
-  
-        // Delete the document from Firestore
+      if (user) {
+        const docRef = doc(db, `userData/${user.uid}/pantryitems`, itemId);
         await deleteDoc(docRef);
-  
-        // Update local state after successful deletion
         setPantryItems(prevItems => prevItems.filter(item => item.id !== itemId));
         setSelectedItems(prevSelected => prevSelected.filter(id => id !== itemId));
       } else {
-        console.error('Item not found or user not authenticated');
+        console.error('User not authenticated');
       }
     } catch (error) {
       console.error('Error deleting document:', error);
       alert('There was an error deleting the item. Please try again.');
     }
   };
+
+
 
   
 

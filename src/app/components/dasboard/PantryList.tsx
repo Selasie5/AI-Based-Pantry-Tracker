@@ -178,7 +178,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
 
   
 
-  const fetchPantryItems = async () => {
+  const fetchPantryItems = async (user: any, searchQuery: string, selectedCategory: string, setPantryItems: (items: PantryItem[])=> void) => {
     if (user) {
       const pantryItemsRef = collection(db, `userData/${user.uid}/pantryitems`);
       const snapshot = await getDocs(pantryItemsRef);
@@ -204,7 +204,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
   };
 
   useEffect(() => {
-    fetchPantryItems();
+    fetchPantryItems(user, searchQuery, selectedCategory, setPantryItems);
   }, [searchQuery, selectedCategory, user]);
 
   const handleEdit = async (itemId: string, updatedData: Partial<PantryItem>) => {
@@ -232,7 +232,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <section className="p-4">
-        <div className="overflow-x-auto">
+        <div className=" overflow-x-scroll md:overflow-x-auto">
           <div className='flex justify-between'>
           <div className="flex justify-center items-center gap-4 ">
             {/* Category Filter */}

@@ -1,3 +1,7 @@
+
+
+// TODO remove, this demo shouldn't need to reset the theme.
+
 "use client"
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';

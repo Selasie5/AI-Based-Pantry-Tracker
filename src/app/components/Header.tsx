@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="w-full fixed top-0 left-0 z-50 flex justify-between items-center px-10 py-5 bg-white">
+    <div className="w-full fixed top-0 left-0 z-50 flex  justify-center md:justify-between items-center px-10 py-5 bg-white">
       <div>
         <h4 className="font-Poppins font-bold text-green-500 text-xl tracking-wide">PantryPal</h4>
       </div>
@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
         </div>
         <div className="">
          <button className='text-white font-Poppins bg-black px-5 py-2 opacity-30 hover:opacity-100'>
-          <Link href="">Log Out</Link>
+          <Link href="/auth/login">Log Out</Link>
          </button>
         </div>
       </div>

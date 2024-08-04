@@ -14,8 +14,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { auth } from "../../../config/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 function Copyright(props: any) {
   return (
@@ -44,6 +45,8 @@ export default function SignUp() {
     const lastName = data.get('lastName')?.toString();
     const displayName = `${firstName} ${lastName}`;
 
+  
+
     if (!email || !password) {
       console.error("Email and password are required.");
       return;
@@ -68,6 +71,30 @@ export default function SignUp() {
       alert("Sign-up failed. Please try again.");
     }
   };
+
+  const provider= new GoogleAuthProvider();
+  //Google signup
+ const signInWithGoogle=()=>
+ {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    // const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+
+ }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -157,7 +184,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/auth/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

@@ -318,13 +318,13 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
                       className="bg-blue-200 text-blue-700 rounded-lg opacity-50 hover:opacity-100 w-full flex justify-center items-center px-1 py-2 hover:bg-gray-100"
                       onClick={() => handleEditOpen(item)}
                     >
-                      <FaEdit className="inline mr-2" /> Edit
+                      <FaEdit className="inline mr-2" /> <span className='text-blue-700 sm:hidden md:block'>Edit</span>
                     </button>
                     <button
-                      className="bg-red-200 text-red-700 opacity-50 hover:opacity-100 w-full flex justify-center items-center px-1 py-2 hover:bg-gray-100"
+                      className="bg-red-200 text-red-700 opacity-50 hover:opacity-100 w-full text-sm lex justify-center items-center px-1 py-2 hover:bg-gray-100"
                       onClick={() => handleDelete(item.id)}
                     >
-                      <FaTrash className="inline mr-2" /> Delete
+                      <FaTrash className="inline mr-2" /> <span className='text-red-700 sm:hidden md:block'>Delete</span>
                     </button>
                   </td>
                 </tr>

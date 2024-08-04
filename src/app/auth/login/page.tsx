@@ -20,6 +20,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {auth} from "../../../config/firebase"
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup   } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Copyright(props: any) {
   return (
@@ -51,6 +54,7 @@ export default function SignIn() {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
+          toast("Your account has successfully been created");
           if (user) {
             router.push("/dashboard");
           } else {
@@ -59,10 +63,10 @@ export default function SignIn() {
         })
         .catch((error) => {
           console.error(error);
-          alert("Failed to sign in");
+          toast("Sign-up failed. Please try again.");
         });
     } else {
-      alert("Please enter both email and password");
+      toast("Please enter both email and password");
     }
   };
 
@@ -156,8 +160,8 @@ export default function SignIn() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/auth/login" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/auth/signup" variant="body2">
+                  Don&apos;t have an account? Sign Up
                 </Link>
               </Grid>
               </Grid>

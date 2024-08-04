@@ -17,6 +17,8 @@ import { auth } from "../../../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { GoogleAuthProvider } from 'firebase/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Copyright(props: any) {
   return (
@@ -45,6 +47,9 @@ export default function SignUp() {
     const lastName = data.get('lastName')?.toString();
     const displayName = `${firstName} ${lastName}`;
 
+    //Handling error states
+    // const [error, setError] = React.useState<string | null>(null);
+
   
 
     if (!email || !password) {
@@ -61,6 +66,7 @@ export default function SignUp() {
       await updateProfile(user, { displayName });
 
       console.log('User signed up:', user);
+      toast("Your account has successfully been created");
 
       // Redirect to the dashboard if sign-up is successful
       if (user) {
@@ -68,7 +74,8 @@ export default function SignUp() {
       }
     } catch (error) {
       console.error("Error signing up:", error);
-      alert("Sign-up failed. Please try again.");
+      // setError("Sign-up failed. Please try again.");
+     toast("Sign-up failed. Please try again.");
     }
   };
 
@@ -100,6 +107,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <ToastContainer/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

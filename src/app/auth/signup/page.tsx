@@ -173,8 +173,8 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-          
-            <Button
+          </Box>
+          <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -190,7 +190,6 @@ export default function SignUp() {
                 </Link>
               </Grid>
             </Grid>
-          </Box>
         </Box>
       </Container>
     </ThemeProvider>

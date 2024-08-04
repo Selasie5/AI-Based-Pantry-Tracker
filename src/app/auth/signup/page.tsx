@@ -179,6 +179,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 0, mb: 1, textTransform: 'none', fontSize: '1rem', fontWeight:'bold'}}
+              onClick={signInWithGoogle}
             >
               Sign Up With Google
             </Button>

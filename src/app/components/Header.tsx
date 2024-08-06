@@ -42,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
 
   return (
     <div className="w-full fixed top-0 left-0 z-50 flex flex-col md:flex-row justify-center md:justify-between items-center px-2 md:px-10 py-5 bg-white">
-      <div className='flex justify-center items-center gap-56 '>
+      <div className='flex justify-center items-center gap-24 md:gap-56'>
         <div className='flex justify-center items-center gap-2'>
 <SiShutterstock  size={34} className='text-blue-700'/>
         <h4 className="font-Poppins font-bold text-gray-900 text-xl tracking-wide">PantryPal</h4>
@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
           <input
             placeholder="Search for items in your pantry"
             value={searchQuery}
-            className="w-[30rem] md:w-[25rem] px-3  py-[1rem] md:py-[0.70rem] rounded-[0.5rem] text-gray-500 text-sm outline-none bg-gray-100 font-Poppins"
+            className="w-[21.5rem] md:w-[25rem] px-3  py-[1rem] md:py-[0.70rem] rounded-[0.5rem] text-gray-500 text-sm outline-none bg-gray-100 font-Poppins"
             onChange={handleSearchChange}
           />
           <button className="absolute top-3 right-5 text-gray-500">

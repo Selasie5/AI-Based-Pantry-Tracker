@@ -29,7 +29,7 @@ const Page = () => {
   return (
     <section className=" pt-28 md:pt-16"> {/* Add padding-top to prevent overlap */}
       <Header onSearch={handleSearch}/>
-      <section className=' md:px-10 py-10 space-y-5'>
+      <section className=' md:px-10 py-16 md:py-10 space-y-5'>
         {/* Custom Greeting */}
         <div className='space-y-1 px-4 md:px-0'>
           <h1 className=" text-[1.4rem] md:text-[1.65rem] font-medium font-Poppins text-black">

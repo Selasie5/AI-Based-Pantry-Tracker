@@ -252,7 +252,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <section className=" relative p-4">
         <div className=" overflow-x-scroll md:overflow-x-auto">
-          <div className='flex justify-between'>
+          <div className='flex flex-col justify-center items-start md:flex-row md:justify-between'>
           <div className="flex justify-center items-center gap-4 ">
             {/* Category Filter */}
             <InputLabel id="filter-category-label" className='hidden md:block'>Category</InputLabel>
@@ -289,7 +289,7 @@ const PantryList: React.FC<PantryListProps> = ({ searchQuery }) => {
               Delete Selected Items
             </button>
             <button
-              className="font-Poppins text-[0.75rem] bg-blue-700 text-white rounded-[0.5rem] px-6 py-3 hover:cursor-pointer"
+              className="font-Poppins text-[0.75rem] bg-blue-700 text-white rounded-[0.5rem]  px-3 md:px-6 py-3 hover:cursor-pointer"
               onClick={handleOpen}
             >
               Add Item To Pantry

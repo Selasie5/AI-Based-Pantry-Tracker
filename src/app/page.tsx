@@ -8,7 +8,7 @@ import {motion} from "framer-motion"
 export default function Home() {
   return (
     <main className="py-2">
-      <header className="flex justify-center md:justify-between items-center gap-14 py-3 px-2 md:px-10">
+      <header className="flex justify-center md:justify-between items-center gap-10 py-3 px-2 md:px-10">
          <motion.div
          initial={{
           opacity: 0
@@ -36,7 +36,7 @@ export default function Home() {
            transition={{
             duration: 0.3
            }}
-           className="bg-blue-700 text-white  text-xs md:text-sm font-Poppins rounded-[0.5rem] px-6 py-[0.8rem] hover:font-bold transition-all">
+           className="bg-blue-700 text-white  text-xs md:text-sm font-Poppins rounded-[0.5rem] px-6 py-[0.8rem] hover:bg-blue-500/95 transition-all">
             <Link href="/auth/signup">
             Get Started 
             </Link>
@@ -51,7 +51,7 @@ export default function Home() {
            transition={{
             duration: 0.5
            }}
-          className="bg-gray-200 text-black text-xs md:text-sm font-Poppins rounded-[0.5rem] px-6 py-[0.8rem] hover:bg-blue-200 hover:font-bold transition-all">
+          className="bg-gray-200 text-black text-xs md:text-sm font-Poppins rounded-[0.5rem] px-6 py-[0.8rem] hover:bg-blue-200  transition-all">
             <Link href="/auth/login">
             Login
             </Link>

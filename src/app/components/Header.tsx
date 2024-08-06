@@ -54,12 +54,12 @@ const Header: React.FC<HeaderProps> = ({ onSearch }) => {
         </div>
       </div>
      
-      <div className="flex justify-between items-center gap-8 pt-5 md:pt-0 w-full md:w-[50%]">
+      <div className="flex  flex-col justify-center md:flex-row md:justify-between items-center gap-8 pt-5 md:pt-0 w-full md:w-[50%]">
         <div className="relative">
           <input
             placeholder="Search for items in your pantry"
             value={searchQuery}
-            className="w-[21.5rem] md:w-[25rem] px-3  py-[1rem] md:py-[0.70rem] rounded-[0.5rem] text-gray-500 text-sm outline-none bg-gray-100 font-Poppins"
+            className="w-[25rem] md:w-[25rem] px-3  py-[1rem] md:py-[0.70rem] rounded-[0.5rem] text-gray-500 text-sm outline-none bg-gray-100 font-Poppins"
             onChange={handleSearchChange}
           />
           <button className="absolute top-3 right-5 text-gray-500">

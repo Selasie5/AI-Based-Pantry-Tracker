@@ -80,4 +80,4 @@ Thank you for using Pantry Tracker! We hope it makes your kitchen management eas
 
 ---
 
-Feel free to customize this README content to suit your project's specific details and requirements.
+
